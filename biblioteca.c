@@ -34,6 +34,7 @@ typedef struct Libro {
     Autor autor[5]; // Buscar la maner de especificar num
     int agno;
     int stock;
+    int numAutor;
     Categoria categoria;
     bool disponible;
 
@@ -89,7 +90,7 @@ void MenuGLibros(Libro lista[], int* numLibro){
         AgregarLibro(lista, numLibro);
         break;
     case 2:
-
+        InfoLibro(lista, numLibro);
         break;
     case 3:
 
@@ -122,12 +123,15 @@ void MenuGPrestamo()
 // + + + + + + + + + + CREACION DE LIBROS + + + + + + + + + + //
 
 void SeleccionarCategoria(Libro lista[], int* numLibro);
+void disponibilidadLibro(Libro lista[], int* numLibro);
 void AgregandoTitulo(Libro lista[], int* numLibro);
 void AgregarAutores(Libro lista[], int* numLibro);
+void mostrarAutores(Libro lista[], int* numLibro);
 void AgregarLibro(Libro lista[], int* numLibro);
 void AgregarStock(Libro lista[], int* numLibro);
 void MenuGLibros(Libro lista[], int* numLibro);
 void AgregarAgno(Libro lista[], int* numLibro);
+void InfoLibro(Libro lista[], int* numLibro);
 
 void AgregarLibro(Libro lista[], int* numLibro) {
     Inicio();
@@ -186,6 +190,7 @@ void AgregarAutores(Libro lista[], int* numLibro) {
         printf("Introduce la edad del autor: ");
         edad = getValor(16, 125);
         lista[*numLibro].autor[i].edad = edad;
+        lista[*numLibro].numAutor++;
     }
 }
 
@@ -216,4 +221,26 @@ int getAgnoActual() {
     time_t tiempoActual = time(NULL);
     struct tm *tiempoLocal = localtime(&tiempoActual);
     return tiempoLocal->tm_year + 1900;
+}
+
+void InfoLibro(Libro lista[], int* numLibro) {
+    Inicio();
+
+    for (int i = 0; i < *numLibro; i++){
+        printf("Libro %d\n\nTitulo: %s", i + 1, lista[i].titulo);
+        mostrarAutores(lista, numLibro);
+        printf("\nPublicado: %d\nCategoria: %s\nStock: %d", lista[*numLibro].agno, lista[*numLibro].categoria, lista[*numLibro].stock);
+        disponibilidadLibro(lista, numLibro);
+    }
+}
+
+void mostrarAutores(Libro lista[], int* numLibro) {
+    for (int i = 0; i < lista[*numLibro].numAutor; i++) {
+        printf("\n%dº Autor: %s\nEdad: %d", i + 1, lista[*numLibro].autor[i].nombre, lista[*numLibro].autor[i].edad);
+    }
+}
+
+void disponibilidadLibro(Libro lista[], int* numLibro) {
+    if (lista[*numLibro].disponible) printf("\nDisponible: true");
+    else printf("\nDisponible: false");
 }
