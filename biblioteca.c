@@ -2,16 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
-void AgregarLibro(Libro lista[]);
-void MenuGLibros(Libro lista[]);
 int getValor(int min, int max);
 void Menu1(bool *opcion);
 void MenuGPrestamo();
 void MenuGAutores();
+int getAgnoActual();
 void continuar();
-
-int NUM_LIBRO = 0;
 
 typedef enum Categoria {
     Ciencia_Ficcion,
@@ -36,6 +34,7 @@ typedef struct Libro {
     Autor autor[5]; // Buscar la maner de especificar num
     int agno;
     int stock;
+    Categoria categoria;
     bool disponible;
 
 } Libro;
@@ -57,6 +56,7 @@ void Inicio() {
 
 void Menu1(bool *salir) {
     Libro listaLibros[30];
+    int numLibro = 0;
 
     Inicio();
     printf("1. Gestión de Libros.\n2. Administración de Autores.\n3. Gestión de "
@@ -65,7 +65,7 @@ void Menu1(bool *salir) {
     int opcion = getValor(0, 3);
     switch (opcion) {
     case 1:
-        MenuGLibros(listaLibros);
+        MenuGLibros(listaLibros, &numLibro);
         break;
     case 2:
         MenuGAutores();
@@ -79,14 +79,14 @@ void Menu1(bool *salir) {
     }
 }
 
-void MenuGLibros(Libro lista[]){
+void MenuGLibros(Libro lista[], int* numLibro){
     Inicio();
     printf("1. Agregar Libros\n2. Mostrar Información.\n3. Buscar Libro\n\n0. "
            "Atras\nIntroduce tu opción: ");
     int opcion = getValor(0,3);
     switch (opcion) {
     case 1:
-        AgregarLibro(lista);
+        AgregarLibro(lista, numLibro);
         break;
     case 2:
 
@@ -115,10 +115,85 @@ void MenuGPrestamo()
            "Disponibilidad\n\n0. Atras\nIntroduce tu opción: ");
 }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 
-void continuar()
-{
+
+
+// + + + + + + + + + + CREACION DE LIBROS + + + + + + + + + + //
+
+void SeleccionarCategoria(Libro lista[], int* numLibro);
+void AgregandoTitulo(Libro lista[], int* numLibro);
+void AgregarAutores(Libro lista[], int* numLibro);
+void AgregarLibro(Libro lista[], int* numLibro);
+void AgregarStock(Libro lista[], int* numLibro);
+void MenuGLibros(Libro lista[], int* numLibro);
+void AgregarAgno(Libro lista[], int* numLibro);
+
+void AgregarLibro(Libro lista[], int* numLibro) {
+    Inicio();
+    
+    AgregandoTitulo(lista, numLibro);
+    AgregarAutores(lista, numLibro);
+    AgregarAgno(lista, numLibro);
+    AgregarStock(lista, numLibro);
+    SeleccionarCategoria(lista, numLibro);
+    
+    *numLibro++;
+}
+
+void SeleccionarCategoria(Libro lista[], int* numLibro) {
+    printf("\n\nCategorias . . .\n1. Ciencia_Ficcion\n2. Misterio\n3. Historico\n4. Ensayo\n5. Infantil\n6. Ciencia\n7. Educativo\n\nIntroduce el numero de la categoria: ");
+    int eleccion = getValor(1,7);
+    lista[*numLibro].categoria = eleccion - 1;
+}
+
+void AgregarStock(Libro lista[], int* numLibro) {
+    printf("\n\nIntroduce el stock del que disponemos de este libro: ");
+    int stock = getValor(1,1000);
+    lista[*numLibro].stock = stock;
+}
+
+void AgregarAgno(Libro lista[], int* numLibro) {
+    printf("\n\nIntroduce el año de publicacion del libro: ");
+    lista[*numLibro].agno = getValor(0,getAgnoActual());
+}
+
+void AgregandoTitulo(Libro lista[], int* numLibro) {
+    char titulo[30];
+
+    printf("Agregando libro ... \n\nIntroduzca el Título: ");
+    fgets(titulo, sizeof(titulo), stdin);
+    titulo[strlen(titulo) - 1] = '\0';
+    strcpy(lista[*numLibro].titulo, &titulo);
+    getchar();
+}
+
+void AgregarAutores(Libro lista[], int* numLibro) {
+    int numAutores, edad;
+    char nombre[30];
+
+    printf("\nIntroduzca el numero de autores que contiene este libro: ");
+    numAutores = getValor(1, 5);
+
+    for (int i = 0; i < numAutores; i++) {
+        printf("\n\nIntroduce el nombre del autor %d: ", i);
+        fgets(nombre, sizeof(nombre), stdin);
+        nombre[strlen(nombre) -1] = '\0';
+        getchar();
+
+        strcpy(lista[*numLibro].autor[i].nombre, nombre); 
+
+        printf("Introduce la edad del autor: ");
+        edad = getValor(16, 125);
+        lista[*numLibro].autor[i].edad = edad;
+    }
+}
+
+// + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + //
+
+
+
+void continuar() {
     printf("Pulsa intro para continuar...");
     getchar();
     while (getchar() != '\n');
@@ -130,23 +205,15 @@ int getValor(int min, int max) {
 
     while (numero < min || numero > max){
         printf("ERROR!\nHas introducido un valor no valido. Introduce un número "
-               "(%d...%d): ",
-               min, max);
+               "(%d...%d): ",min, max);
         scanf("%d", &numero);
     }
 
     return numero;
 }
 
-void AgregarLibro(Libro lista[]) {
-    char titulo[30];
-
-    Inicio();
-    printf("Agregando libro ... \n\nIntroduzca el Título: ");
-    fgets(titulo, sizeof(titulo), stdin);
-    getchar();
-    strcpy(lista[NUM_LIBRO].titulo, &titulo);
-    
-
-    NUM_LIBRO++;
+int getAgnoActual() {
+    time_t tiempoActual = time(NULL);
+    struct tm *tiempoLocal = localtime(&tiempoActual);
+    return tiempoLocal->tm_year + 1900;
 }
