@@ -92,11 +92,7 @@ void MenuGPrestamo()
            "Disponibilidad\n\n0. Atras\nIntroduce tu opción: ");
 }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-
-
-
-// + + + + + + + + + + CREACION DE LIBROS + + + + + + + + + + //
+// CREACION DE LIBROS
 
 void AgregarLibro(Libro* lista, int* numLibro) {
     Inicio();
@@ -111,8 +107,7 @@ void AgregarLibro(Libro* lista, int* numLibro) {
     *numLibro = *numLibro + 1;
 }
 
-// + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + //
-
+// Mostrar los libros y su informacion
 
 void InfoLibro(Libro* lista, int* numLibro) {
     Inicio();
