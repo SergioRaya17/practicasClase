@@ -4,8 +4,6 @@
 #include <string.h>
 
 //Para organizar un poco el código las Estructuras Libro/Autor y el enum Categoria son creados en Libro.h
-#include "Libro.h"
-#include "utils.h"
 #include "creacionLibro.h"
 
 void disponibilidadLibro(Libro* lista, int numLibro);
