@@ -25,10 +25,11 @@ void AgregandoTitulo(Libro* lista, int* numLibro) {
     char titulo[50];
 
     printf("Agregando libro ... \n\nIntroduzca el Título: ");
+    while (getchar() != '\n');
     fgets(titulo, sizeof(titulo), stdin);
     titulo[strlen(titulo) - 1] = '\0';
     strcpy(lista[*numLibro].titulo, titulo);
-    while (getchar() != '\n');
+    getchar();
 }
 
 void AgregarAutores(Libro* lista, int* numLibro) {
@@ -40,9 +41,10 @@ void AgregarAutores(Libro* lista, int* numLibro) {
 
     for (int i = 0; i < numAutores; i++) {
         printf("\n\nIntroduce el nombre del autor %d: ", i + 1);
+        while (getchar() != '\n');
         fgets(nombre, sizeof(nombre), stdin);
         nombre[strlen(nombre) -1] = '\0';
-        while (getchar() != '\n');
+        getchar();
 
         strcpy(lista[*numLibro].autor[i].nombre, nombre); 
 

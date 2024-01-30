@@ -10,17 +10,17 @@ void disponibilidadLibro(Libro* lista, int numLibro);
 void mostrarAutores(Libro* lista, int numLibro);
 void AgregarLibro(Libro* lista, int* numLibro);
 void MenuGLibros(Libro* lista, int* numLibro);
-void MenuGLibros(Libro* lista, int* numLibro);
 void InfoLibro(Libro* lista, int* numLibro);
-void Menu1(bool *opcion);
+void Menu1(bool *opcion, int* numLibro);
 void MenuGPrestamo();
 void MenuGAutores();
 
 int main() {
     bool opcion = true;
+    int numLibro = 0;
 
     do {
-        Menu1(&opcion);
+        Menu1(&opcion, &numLibro);
     } while (opcion);
 }
 
@@ -29,9 +29,8 @@ void Inicio() {
     printf("+ + + + + + SISTEMA DE GESTIÓN BIBLIOTECARIO + + + + + + \n\n");
 }
 
-void Menu1(bool *salir) {
+void Menu1(bool *salir, int* numLibro) {
     Libro listaLibros[30];
-    int numLibro = 0;
 
     Inicio();
     printf("1. Gestión de Libros.\n2. Administración de Autores.\n3. Gestión de "
@@ -40,7 +39,7 @@ void Menu1(bool *salir) {
     int opcion = getValor(0, 3);
     switch (opcion) {
     case 1:
-        MenuGLibros(listaLibros, &numLibro);
+        MenuGLibros(listaLibros, numLibro);
         break;
     case 2:
         MenuGAutores();
@@ -76,15 +75,13 @@ void MenuGLibros(Libro* lista, int* numLibro){
     
 }
 
-void MenuGAutores()
-{
+void MenuGAutores(){
     Inicio();
     printf("1. Agregar Autores\n2. Mostrar Autores\n3. Libros Autor\n\n0. "
            "Atras\nIntroduce tu opción: ");
 }
 
-void MenuGPrestamo()
-{
+void MenuGPrestamo(){
     Inicio();
     printf("1. Ingresar Prestamo\n2. Ingresar Devolución\n3. Buscar "
            "Disponibilidad\n\n0. Atras\nIntroduce tu opción: ");
@@ -110,8 +107,8 @@ void AgregarLibro(Libro* lista, int* numLibro) {
 void InfoLibro(Libro* lista, int* numLibro) {
     Inicio();
 
-    for (int i = 0; i <= *numLibro; i++){
-        printf("Libro %d\n\nTitulo: %s", i + 1, lista[i].titulo);
+    for (int i = 0; i < *numLibro; i++){
+        printf("\n\nLibro %d\n\nTitulo: %s", i + 1, lista[i].titulo);
         mostrarAutores(lista, i);
         printf("\nPublicado: %d\nCategoria: %d\nStock: %d", lista[i].agno, lista[i].categoria, lista[i].stock);
         disponibilidadLibro(lista, i);
