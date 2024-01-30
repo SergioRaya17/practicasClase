@@ -2,46 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
-typedef enum Categoria {
-    Ciencia_Ficcion,
-    Misterio,
-    Historico,
-    Ensayo,
-    Infantil,
-    Ciencia,
-    Educativo
-
-} Categoria;
-
-typedef struct Autor {
-    char nombre[50];
-    int edad;
-    // Libros que ha escrito
-
-} Autor;
-
-typedef struct Libro {
-    char titulo[50];
-    Autor autor[5]; // Buscar la maner de especificar num
-    int agno;
-    int stock;
-    int numAutor;
-    Categoria categoria;
-    bool disponible;
-
-} Libro;
+//Para organizar un poco el código las Estructuras Libro/Autor y el enum Categoria son creados en Libro.h
+#include "Libro.h"
+#include "utils.h"
 
 void AgregarLibro(Libro* lista, int* numLibro);
 void MenuGLibros(Libro* lista, int* numLibro);
 void InfoLibro(Libro* lista, int* numLibro);
-int getValor(int min, int max);
 void Menu1(bool *opcion);
 void MenuGPrestamo();
 void MenuGAutores();
-int getAgnoActual();
-void continuar();
 
 int main() {
     bool opcion = true;
@@ -138,12 +109,13 @@ void AgregarLibro(Libro* lista, int* numLibro) {
     Inicio();
     
     AgregandoTitulo(lista, numLibro);
+    lista[*numLibro].numAutor = 0;
     AgregarAutores(lista, numLibro);
     AgregarAgno(lista, numLibro);
     AgregarStock(lista, numLibro);
     SeleccionarCategoria(lista, numLibro);
     
-    (*numLibro)++;
+    *numLibro = *numLibro + 1;
 }
 
 void SeleccionarCategoria(Libro* lista, int* numLibro) {
@@ -198,36 +170,10 @@ void AgregarAutores(Libro* lista, int* numLibro) {
 // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + //
 
 
-
-void continuar() {
-    printf("Pulsa intro para continuar...");
-    getchar();
-    while (getchar() != '\n');
-}
-
-int getValor(int min, int max) {
-    int numero;
-    scanf("%d", &numero);
-
-    while (numero < min || numero > max){
-        printf("ERROR!\nHas introducido un valor no valido. Introduce un número "
-               "(%d...%d): ",min, max);
-        scanf("%d", &numero);
-    }
-
-    return numero;
-}
-
-int getAgnoActual() {
-    time_t tiempoActual = time(NULL);
-    struct tm *tiempoLocal = localtime(&tiempoActual);
-    return tiempoLocal->tm_year + 1900;
-}
-
 void InfoLibro(Libro* lista, int* numLibro) {
     Inicio();
 
-    for (int i = 0; i < *numLibro; i++){
+    for (int i = 0; i <= *numLibro; i++){
         printf("Libro %d\n\nTitulo: %s", i + 1, lista[i].titulo);
         mostrarAutores(lista, i);
         printf("\nPublicado: %d\nCategoria: %d\nStock: %d", lista[i].agno, lista[i].categoria, lista[i].stock);
@@ -239,7 +185,7 @@ void InfoLibro(Libro* lista, int* numLibro) {
 
 void mostrarAutores(Libro* lista, int numLibro) {
     for (int i = 0; i < lista[numLibro].numAutor; i++) {
-        printf("\n%dº Autor: %s\nEdad: %d", i + 1, lista[numLibro].autor[i].nombre, lista[numLibro].autor[i].edad);
+        printf("\n%dº Autor: %s\nEdad: %d\n", i + 1, lista[numLibro].autor[i].nombre, lista[numLibro].autor[i].edad);
     }
 }
 
