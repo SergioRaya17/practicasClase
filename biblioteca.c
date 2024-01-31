@@ -9,11 +9,14 @@
 void disponibilidadLibro(Libro* lista, int numLibro);
 void mostrarAutores(Libro* lista, int numLibro);
 void AgregarLibro(Libro* lista, int* numLibro);
+void BuscarTitulo(Libro* lista, int* numLibro);
 void MenuGLibros(Libro* lista, int* numLibro);
 void InfoLibro(Libro* lista, int* numLibro);
+void InfoLibroNum(Libro* lista, int num);
 void Menu1(bool *opcion, int* numLibro);
 void MenuGPrestamo();
 void MenuGAutores();
+void Inicio();
 
 int main() {
     bool opcion = true;
@@ -22,11 +25,6 @@ int main() {
     do {
         Menu1(&opcion, &numLibro);
     } while (opcion);
-}
-
-void Inicio() {
-    system("clear");
-    printf("+ + + + + + SISTEMA DE GESTIÓN BIBLIOTECARIO + + + + + + \n\n");
 }
 
 void Menu1(bool *salir, int* numLibro) {
@@ -66,10 +64,7 @@ void MenuGLibros(Libro* lista, int* numLibro){
         InfoLibro(lista, numLibro);
         break;
     case 3:
-
-        break;
-    case 0:
-
+        BuscarTitulo(lista, numLibro);
         break;
     }
     
@@ -87,6 +82,11 @@ void MenuGPrestamo(){
            "Disponibilidad\n\n0. Atras\nIntroduce tu opción: ");
 }
 
+void Inicio() {
+    system("clear");
+    printf("+ + + + + + SISTEMA DE GESTIÓN BIBLIOTECARIO + + + + + + \n\n");
+}
+
 // CREACION DE LIBROS
 
 void AgregarLibro(Libro* lista, int* numLibro) {
@@ -99,22 +99,22 @@ void AgregarLibro(Libro* lista, int* numLibro) {
     AgregarStock(lista, numLibro);
     SeleccionarCategoria(lista, numLibro);
     
-    *numLibro = *numLibro + 1;
+    (*numLibro)++;
 }
 
 // Mostrar los libros y su informacion
 
 void InfoLibro(Libro* lista, int* numLibro) {
     Inicio();
-
-    for (int i = 0; i < *numLibro; i++){
-        printf("\n\nLibro %d\n\nTitulo: %s", i + 1, lista[i].titulo);
-        mostrarAutores(lista, i);
-        printf("\nPublicado: %d\nCategoria: %d\nStock: %d", lista[i].agno, lista[i].categoria, lista[i].stock);
-        disponibilidadLibro(lista, i);
-    }
-
+    for (int i = 0; i < *numLibro; i++) InfoLibroNum(lista, i);
     continuar();
+}
+
+void InfoLibroNum(Libro* lista, int num) {
+    printf("\n\nLibro %d\n\nTitulo: %s", num + 1, lista[num].titulo);
+    mostrarAutores(lista, num);
+    printf("\nPublicado: %d\nCategoria: %d\nStock: %d", lista[num].agno, lista[num].categoria, lista[num].stock);
+    disponibilidadLibro(lista, num);
 }
 
 void mostrarAutores(Libro* lista, int numLibro) {
@@ -126,4 +126,26 @@ void mostrarAutores(Libro* lista, int numLibro) {
 void disponibilidadLibro(Libro* lista, int numLibro) {
     if (lista[numLibro].disponible) printf("\nDisponible: true");
     else printf("\nDisponible: false");
+}
+
+// Buscar Libro introduciendo el titulo
+void BuscarTitulo(Libro* lista, int* numLibro) {
+    char titulo[50];
+    int numLibroBuscado = -1;
+
+    Inicio();
+    printf("\nBusca por titulo: ");
+    getchar();
+    fgets(titulo, sizeof(titulo), stdin);
+    titulo[strlen(titulo) - 1] = '\0';
+
+    for(int i = 0; i < *numLibro; i++) {
+        if (!(strcmp(lista[i].titulo, titulo))) {
+            numLibroBuscado = i;
+        }
+    }
+
+    if (!(numLibroBuscado == -1)) InfoLibroNum(lista, numLibroBuscado);
+    else printf("\n\nLibro no encontrado");
+    continuar();
 }

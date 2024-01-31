@@ -36,7 +36,7 @@ void AgregarAutores(Libro* lista, int* numLibro) {
     int numAutores, edad;
     char nombre[50];
 
-    printf("\nIntroduzca el numero de autores que contiene este libro: ");
+    printf("Introduzca el numero de autores que contiene este libro: ");
     numAutores = getValor(1, 5);
 
     for (int i = 0; i < numAutores; i++) {
