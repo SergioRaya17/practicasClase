@@ -8,14 +8,14 @@
 
 void disponibilidadLibro(Libro* lista, int numLibro);
 void mostrarAutores(Libro* lista, int numLibro);
+void MenuGPrestamo(Libro* lista, int* numLibro);
 void AgregarLibro(Libro* lista, int* numLibro);
 void BuscarTitulo(Libro* lista, int* numLibro);
+void MenuGAutores(Libro* lista, int* numLibro);
 void MenuGLibros(Libro* lista, int* numLibro);
 void InfoLibro(Libro* lista, int* numLibro);
 void InfoLibroNum(Libro* lista, int num);
 void Menu1(bool *opcion, int* numLibro);
-void MenuGPrestamo();
-void MenuGAutores();
 void Inicio();
 
 int main() {
@@ -40,10 +40,10 @@ void Menu1(bool *salir, int* numLibro) {
         MenuGLibros(listaLibros, numLibro);
         break;
     case 2:
-        MenuGAutores();
+        MenuGAutores(listaLibros, numLibro);
         break;
     case 3:
-        MenuGPrestamo();
+        MenuGPrestamo(listaLibros, numLibro);
         break;
     case 0:
         *salir = false;
@@ -70,13 +70,25 @@ void MenuGLibros(Libro* lista, int* numLibro){
     
 }
 
-void MenuGAutores(){
+void MenuGAutores(Libro* lista, int* numLibro){
     Inicio();
     printf("1. Agregar Autores\n2. Mostrar Autores\n3. Libros Autor\n\n0. "
            "Atras\nIntroduce tu opción: ");
+    int opcion = getValor(0,3);
+    switch (opcion) {
+    case 1:
+        
+        break;
+    case 2:
+        
+        break;
+    case 3:
+        
+        break;
+    }
 }
 
-void MenuGPrestamo(){
+void MenuGPrestamo(Libro* lista, int* numLibro){
     Inicio();
     printf("1. Ingresar Prestamo\n2. Ingresar Devolución\n3. Buscar "
            "Disponibilidad\n\n0. Atras\nIntroduce tu opción: ");
