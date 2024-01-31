@@ -18,6 +18,7 @@ void InfoLibroNum(Libro* lista, int num);
 void Menu1(bool *opcion, int* numLibro);
 void Inicio();
 
+//No me gusta que el Main sea tan chico pero en este caso no veo otra solución.
 int main() {
     bool opcion = true;
     int numLibro = 0;
@@ -72,17 +73,17 @@ void MenuGLibros(Libro* lista, int* numLibro){
 
 void MenuGAutores(Libro* lista, int* numLibro){
     Inicio();
-    printf("1. Agregar Autores\n2. Mostrar Autores\n3. Libros Autor\n\n0. "
+    printf("1. Mostrar Autores\n2. Libros Autor\n\n0. "
            "Atras\nIntroduce tu opción: ");
-    int opcion = getValor(0,3);
+    int opcion = getValor(0,2);
     switch (opcion) {
     case 1:
-        
+        for (int i = 0; i < *numLibro; i++) {
+            mostrarAutores(lista, i);
+        }
+        continuar();
         break;
     case 2:
-        
-        break;
-    case 3:
         
         break;
     }
@@ -131,7 +132,7 @@ void InfoLibroNum(Libro* lista, int num) {
 
 void mostrarAutores(Libro* lista, int numLibro) {
     for (int i = 0; i < lista[numLibro].numAutor; i++) {
-        printf("\n%dº Autor: %s\nEdad: %d\n", i + 1, lista[numLibro].autor[i].nombre, lista[numLibro].autor[i].edad);
+        printf("\n\nAutor: %s\nEdad: %d\n", lista[numLibro].autor[i].nombre, lista[numLibro].autor[i].edad);
     }
 }
 
