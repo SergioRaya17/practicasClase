@@ -7,6 +7,7 @@
 #include "creacionLibro.h"
 
 void disponibilidadLibro(Libro* lista, int numLibro);
+void BuscarPorAutor(Libro* lista, int* numLibro);
 void mostrarAutores(Libro* lista, int numLibro);
 void MenuGPrestamo(Libro* lista, int* numLibro);
 void AgregarLibro(Libro* lista, int* numLibro);
@@ -84,7 +85,7 @@ void MenuGAutores(Libro* lista, int* numLibro){
         continuar();
         break;
     case 2:
-        
+        BuscarPorAutor(lista, numLibro);
         break;
     }
 }
@@ -160,5 +161,33 @@ void BuscarTitulo(Libro* lista, int* numLibro) {
 
     if (!(numLibroBuscado == -1)) InfoLibroNum(lista, numLibroBuscado);
     else printf("\n\nLibro no encontrado");
+    continuar();
+}
+
+void BuscarPorAutor(Libro* lista, int* numLibro) {
+    char autor[50];
+    int numLibroBuscado[30], indice = 0;
+    numLibroBuscado[0] = -1;
+
+    Inicio();
+    printf("\nBusca libros del Autor: ");
+    getchar();
+    fgets(autor, sizeof(autor), stdin);
+    autor[strlen(autor) - 1] = '\0';
+
+    for(int i = 0; i < *numLibro; i++) {
+        for (int j = 0; j < sizeof(lista[0].autor)/sizeof(lista[0].autor[0]);j++) {
+            if (!(strcmp(lista[i].autor[j].nombre, autor))) {
+                numLibroBuscado[indice++] = i;
+            }
+        }
+    }
+
+    if (!(numLibroBuscado[0] == -1)){
+        for(int i = 0; i < sizeof(numLibroBuscado)/sizeof(numLibroBuscado[0]);i++) {
+            InfoLibroNum(lista, numLibroBuscado[i]);
+        }
+
+    } else printf("\n\nLibro no encontrado");
     continuar();
 }
