@@ -24,8 +24,8 @@ typedef struct Libro {
     Autor autor[5]; // Buscar la maner de especificar num
     int agno;
     int stock;
+    int disponible;
     int numAutor;
     Categoria categoria;
-    bool disponible;
 
 } Libro;

@@ -6,58 +6,57 @@
 //Para organizar un poco el código las Estructuras Libro/Autor y el enum Categoria son creados en Libro.h
 #include "creacionLibro.h"
 
+void ComprovarDisponibilidad(Libro* lista, int* numLibro);
+void IngresarDevolucion(Libro* lista, int* numLibro);
 void disponibilidadLibro(Libro* lista, int numLibro);
+void IngresarPrestamo(Libro* lista, int* numLibro);
 void BuscarPorAutor(Libro* lista, int* numLibro);
 void mostrarAutores(Libro* lista, int numLibro);
 void MenuGPrestamo(Libro* lista, int* numLibro);
 void AgregarLibro(Libro* lista, int* numLibro);
-void BuscarTitulo(Libro* lista, int* numLibro);
+int BuscarTitulo(Libro* lista, int* numLibro);
 void MenuGAutores(Libro* lista, int* numLibro);
 void MenuGLibros(Libro* lista, int* numLibro);
 void InfoLibro(Libro* lista, int* numLibro);
 void InfoLibroNum(Libro* lista, int num);
-void Menu1(bool *opcion, int* numLibro);
+void Menu1();
 void Inicio();
 
 //No me gusta que el Main sea tan chico pero en este caso no veo otra solución.
 int main() {
+    Libro listaLibros[30];
     bool opcion = true;
     int numLibro = 0;
 
     do {
-        Menu1(&opcion, &numLibro);
+        Menu1();
+        int eleccion = getValor(0, 2);
+        switch (eleccion) {
+            case 1:
+                MenuGLibros(listaLibros, &numLibro);
+                break;
+            case 2:
+                MenuGPrestamo(listaLibros, &numLibro);
+                break;
+            case 0:
+                opcion = false;
+                break;
+        }
     } while (opcion);
 }
 
-void Menu1(bool *salir, int* numLibro) {
-    Libro listaLibros[30];
-
+void Menu1() {
     Inicio();
-    printf("1. Gestión de Libros.\n2. Administración de Autores.\n3. Gestión de "
+    printf("1. Gestión de Libros.\n2. Gestión de "
            "Préstamos y Devoluciones\n\n0. Terminar Programa\nIntroduce tu "
            "opción: ");
-    int opcion = getValor(0, 3);
-    switch (opcion) {
-    case 1:
-        MenuGLibros(listaLibros, numLibro);
-        break;
-    case 2:
-        MenuGAutores(listaLibros, numLibro);
-        break;
-    case 3:
-        MenuGPrestamo(listaLibros, numLibro);
-        break;
-    case 0:
-        *salir = false;
-        break;
-    }
 }
 
 void MenuGLibros(Libro* lista, int* numLibro){
     Inicio();
-    printf("1. Agregar Libros\n2. Mostrar Información.\n3. Buscar Libro\n\n0. "
+    printf("1. Agregar Libros\n2. Mostrar Información.\n3. Buscar Libro\n4. Mostrar Autores\n\n0. "
            "Atras\nIntroduce tu opción: ");
-    int opcion = getValor(0,3);
+    int opcion = getValor(0,4);
     switch (opcion) {
     case 1:
         AgregarLibro(lista, numLibro);
@@ -68,32 +67,33 @@ void MenuGLibros(Libro* lista, int* numLibro){
     case 3:
         BuscarTitulo(lista, numLibro);
         break;
-    }
-    
-}
-
-void MenuGAutores(Libro* lista, int* numLibro){
-    Inicio();
-    printf("1. Mostrar Autores\n2. Libros Autor\n\n0. "
-           "Atras\nIntroduce tu opción: ");
-    int opcion = getValor(0,2);
-    switch (opcion) {
-    case 1:
+    case 4:
         for (int i = 0; i < *numLibro; i++) {
             mostrarAutores(lista, i);
         }
         continuar();
-        break;
-    case 2:
-        BuscarPorAutor(lista, numLibro);
-        break;
+    break;
     }
+    
 }
 
 void MenuGPrestamo(Libro* lista, int* numLibro){
     Inicio();
     printf("1. Ingresar Prestamo\n2. Ingresar Devolución\n3. Buscar "
            "Disponibilidad\n\n0. Atras\nIntroduce tu opción: ");
+
+    int opcion = getValor(0,3);
+    switch (opcion) {
+        case 1:
+            IngresarPrestamo(lista, numLibro);
+            break;
+        case 2:
+            IngresarDevolucion(lista, numLibro);
+            break;
+        case 3:
+            ComprovarDisponibilidad(lista, numLibro);
+            break;
+    }
 }
 
 void Inicio() {
@@ -143,7 +143,7 @@ void disponibilidadLibro(Libro* lista, int numLibro) {
 }
 
 // Buscar Libro introduciendo el titulo
-void BuscarTitulo(Libro* lista, int* numLibro) {
+int BuscarTitulo(Libro* lista, int* numLibro) {
     char titulo[50];
     int numLibroBuscado = -1;
 
@@ -154,40 +154,32 @@ void BuscarTitulo(Libro* lista, int* numLibro) {
     titulo[strlen(titulo) - 1] = '\0';
 
     for(int i = 0; i < *numLibro; i++) {
-        if (!(strcmp(lista[i].titulo, titulo))) {
-            numLibroBuscado = i;
-        }
+        if (!(strcmp(lista[i].titulo, titulo))) numLibroBuscado = i;
     }
 
-    if (!(numLibroBuscado == -1)) InfoLibroNum(lista, numLibroBuscado);
-    else printf("\n\nLibro no encontrado");
-    continuar();
+    if (!(numLibroBuscado == -1)) {
+        InfoLibroNum(lista, numLibroBuscado);
+        continuar();
+        return numLibroBuscado;
+    } else { 
+        printf("\n\nLibro no encontrado");
+        continuar();
+        return -1;
+    }
 }
 
-void BuscarPorAutor(Libro* lista, int* numLibro) {
-    char autor[50];
-    int numLibroBuscado[30], indice = 0;
-    numLibroBuscado[0] = -1;
+void IngresarPrestamo(Libro* lista, int* numLibro) {
+    int num = BuscarTitulo(lista, numLibro);
+    printf("\n\nPrestamo registrado ... ");
+    (lista[num].disponible)--;
+}
 
-    Inicio();
-    printf("\nBusca libros del Autor: ");
-    getchar();
-    fgets(autor, sizeof(autor), stdin);
-    autor[strlen(autor) - 1] = '\0';
+void IngresarDevolucion(Libro* lista, int* numLibro) {
+    int num = BuscarTitulo(lista, numLibro);
+    printf("\n\nPrestamo registrado ... ");
+    (lista[num].disponible)++;
+}
 
-    for(int i = 0; i < *numLibro; i++) {
-        for (int j = 0; j < sizeof(lista[0].autor)/sizeof(lista[0].autor[0]);j++) {
-            if (!(strcmp(lista[i].autor[j].nombre, autor))) {
-                numLibroBuscado[indice++] = i;
-            }
-        }
-    }
-
-    if (!(numLibroBuscado[0] == -1)){
-        for(int i = 0; i < sizeof(numLibroBuscado)/sizeof(numLibroBuscado[0]);i++) {
-            InfoLibroNum(lista, numLibroBuscado[i]);
-        }
-
-    } else printf("\n\nLibro no encontrado");
-    continuar();
+void ComprovarDisponibilidad(Libro* lista, int* numLibro) {
+    BuscarTitulo(lista, numLibro);
 }

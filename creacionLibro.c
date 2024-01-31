@@ -14,6 +14,7 @@ void AgregarStock(Libro* lista, int* numLibro) {
     printf("\n\nIntroduce el stock del que disponemos de este libro: ");
     int stock = getValor(1,1000);
     lista[*numLibro].stock = stock;
+    lista[*numLibro].disponible = stock;
 }
 
 void AgregarAgno(Libro* lista, int* numLibro) {
