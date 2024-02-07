@@ -16,6 +16,7 @@ typedef struct Proyecto {
     Empleado listEmpl[5];
 } Proyecto;
 
+void mostrarEquipoProyecto(Proyecto* proyecto);
 
 int main () {
     Proyecto proyecto;
@@ -34,4 +35,12 @@ int main () {
     scanf("%d", proyecto.id);
     getchar();
     
+}
+
+void agregarEmpleadoAProyecto() {
+
+}
+
+void mostrarEquipoProyecto(Proyecto* proyecto) {
+
 }
