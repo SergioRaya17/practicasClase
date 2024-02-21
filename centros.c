@@ -15,13 +15,15 @@ typedef struct {
     SOCIAL,
     OTRAS
   } especialidad;
+
   int duracion;
+  
   enum Grado {
     MEDIO,
     SUPERIOR
   } grado;
 } Ciclo;
-
+ 
 typedef struct {
   char nombre[LONGITUD_MAXIMA];
   Ciclo ciclos[NUMERO_CICLOS];
