@@ -10,7 +10,8 @@ int main () {
     Centro centros [numCentros];
 
     
-
+    Alumno alumno;
+    strcpy(alumno.datos.nombre, "Hola"); 
 }
 
 
