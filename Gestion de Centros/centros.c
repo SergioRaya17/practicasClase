@@ -5,10 +5,11 @@
 
 void crearCentro (Centro centro);
 void crearCliclos (Centro centro);
+void creacionAlumnos (Centro centro);
 
 int main () {
     int numCentros;
-    printf("Introduce el número de centros: ");
+    printf("\nIntroduce el número de centros: ");
     scanf("%d", &numCentros);
 
     Centro centros[numCentros];
@@ -19,7 +20,7 @@ int main () {
 }
 
 void crearCentro (Centro centro) {
-    printf("Introduce el nombre del centro: ");
+    printf("\nIntroduce el nombre del centro: ");
     fgets(centro.nombre, sizeof(centro.nombre), stdin);
     centro.nombre[strlen(centro.nombre) - 1] = '\0';
     while (getchar() != '\n');
@@ -27,15 +28,44 @@ void crearCentro (Centro centro) {
 
 void crearCliclos (Centro centro) {
     for (int i = 0; i < NUMERO_CICLOS; i++) {
-        printf("Dale un nombre al ciclo %d del %s\nIntroduce el nombre: ", i + 1, centro.nombre);
+        printf("\nDale un nombre al ciclo %d del %s\nIntroduce el nombre: ", i + 1, centro.nombre);
         fgets(centro.ciclos[i].nombre, sizeof(centro.ciclos[i].nombre), stdin);
         centro.ciclos[i].nombre[strlen(centro.ciclos[i].nombre) - 1] = '\0';
         while (getchar() != '\n');
 
-        printf("Introduce la duración del ciclo en años: ");
+        printf("\nIntroduce la duración del ciclo en años: ");
         scanf("%d", centro.ciclos[i].duracion);
 
+        printf("\nSelecciona si el ciclo es de grado:\n\t1. Basico\n\t2. Medio\n\t3. Superior\n\nIntroduce tu opcion: ");
+        centro.ciclos[i].grado = getValor(1,3) - 1;
+
+        printf("\nSelecciona la especialidad del ciclo:\n\t1. Informatica\n\t2. Electricidad\n\t3. Deportes\n\t4. Social\n\t5. Otras\n\nIntroduce tu opcion: ");
+        centro.ciclos[i].especialidad = getValor(1,5) - 1;
+
+        creacionAlumnos(centro);
     }
 }
 
+void creacionAlumnos (Centro centro) {
+    int numAlumnos;
+    printf("\nIntroduce el número de alumnos con el que cuenta este ciclo: ");
+    scanf("%d", &numAlumnos);
+
+    Alumno alumnos[numAlumnos];
+    for (int i = 0; i < numAlumnos; i++) {
+        printf("\nIntroduce el nombre del alumno: ");
+        fgets(alumnos[i].datos.nombre, sizeof(alumnos[i].datos.nombre), stdin);
+        alumnos[i].datos.nombre[strlen(alumnos[i].datos.nombre) - 1] = '\0';
+        while (getchar() != '\n');
+
+        printf("\nIntroduce la edad del alumno: ");
+        scanf("%d", alumnos[i].datos.edad);
+
+        printf("\nCursos\n\n1. Primero\n\n2. Segundo: \n\nIntroduce la opcion:");
+        alumnos[i].curso = getValor(1,2) - 1;
+    }
+
+    centro.ciclos->alumnos = alumnos;
+    centro.ciclos->numAlumnos = numAlumnos;
+}
 

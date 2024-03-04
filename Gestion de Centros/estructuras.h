@@ -6,7 +6,7 @@
 
 typedef struct Ciclo {
   char nombre[LONGITUD_MAXIMA];
-  int duracion;
+  int duracion; 
 
   enum Especialidad {
     INFORMATICA,
@@ -22,6 +22,9 @@ typedef struct Ciclo {
     SUPERIOR
   } grado;
 
+  int numAlumnos;
+  Alumno* alumnos;
+
 } Ciclo;
  
 typedef struct Centro {
@@ -36,7 +39,7 @@ typedef struct InfoAlumno {
 
 typedef struct Alumno {
   InfoAlumno datos;
-  Ciclo ciclo;
+  
   enum Curso {
     PRIMERO,
     SEGUNDO
