@@ -34,7 +34,7 @@ void crearCliclos (Centro centro) {
         while (getchar() != '\n');
 
         printf("\nIntroduce la duración del ciclo en años: ");
-        scanf("%d", centro.ciclos[i].duracion);
+        scanf("%d", &centro.ciclos[i].duracion);
 
         printf("\nSelecciona si el ciclo es de grado:\n\t1. Basico\n\t2. Medio\n\t3. Superior\n\nIntroduce tu opcion: ");
         centro.ciclos[i].grado = getValor(1,3) - 1;
@@ -59,7 +59,7 @@ void creacionAlumnos (Centro centro) {
         while (getchar() != '\n');
 
         printf("\nIntroduce la edad del alumno: ");
-        scanf("%d", alumnos[i].datos.edad);
+        scanf("%d", &alumnos[i].datos.edad);
 
         printf("\nCursos\n\n1. Primero\n\n2. Segundo: \n\nIntroduce la opcion:");
         alumnos[i].curso = getValor(1,2) - 1;

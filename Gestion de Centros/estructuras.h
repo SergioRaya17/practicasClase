@@ -4,6 +4,21 @@
 #define LONGITUD_MAXIMA 70
 #define NUMERO_CICLOS 3
 
+typedef struct InfoAlumno {
+  char nombre[LONGITUD_MAXIMA];
+  int edad;
+} InfoAlumno;
+
+typedef struct Alumno {
+  InfoAlumno datos;
+  
+  enum Curso {
+    PRIMERO,
+    SEGUNDO
+  } curso;
+} Alumno;
+
+
 typedef struct Ciclo {
   char nombre[LONGITUD_MAXIMA];
   int duracion; 
@@ -32,16 +47,3 @@ typedef struct Centro {
   Ciclo ciclos[NUMERO_CICLOS];
 } Centro;
 
-typedef struct InfoAlumno {
-  char nombre[LONGITUD_MAXIMA];
-  int edad;
-} InfoAlumno;
-
-typedef struct Alumno {
-  InfoAlumno datos;
-  
-  enum Curso {
-    PRIMERO,
-    SEGUNDO
-  } curso;
-} Alumno;
