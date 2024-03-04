@@ -3,20 +3,47 @@
 #include "./estructuras.h"
 #include "./utils.h"
 
-void crearCentro (Centro centro);
-void crearCliclos (Centro centro);
-void creacionAlumnos (Centro centro);
+int menuInicial();
+void menuCompleto();
+void crearCentro(Centro centro);
+void crearCliclos(Centro centro);
+void creacionAlumnos(Centro centro);
 
 int main () {
-    int numCentros;
-    printf("\nIntroduce el número de centros: ");
-    scanf("%d", &numCentros);
+    int numCentros = 0;
 
-    Centro centros[numCentros];
-    for (int i = 0; i < numCentros; i++) {
-        crearCentro(centros[i]);
-        crearCliclos(centros[i]);
+    if (!(numCentros)) {
+        int opcion = 0;
+        do {
+            opcion = menuInicial();
+            switch (opcion) {
+            case 1:
+                
+                break;
+            case 2:
+                
+                break;
+            case 0:
+                
+                break;
+            default:
+                break;
+            }
+        } while (opcion =! 0);
+        
+        printf("\nIntroduce el número de centros: ");
+        scanf("%d", &numCentros);
+
+        Centro centros[numCentros];
+        for (int i = 0; i < numCentros; i++) {
+            crearCentro(centros[i]);
+            crearCliclos(centros[i]);
+        }
+
+    } else {
+
     }
+    
 }
 
 void crearCentro (Centro centro) {
@@ -69,3 +96,17 @@ void creacionAlumnos (Centro centro) {
     centro.ciclos->numAlumnos = numAlumnos;
 }
 
+int menuInicial () {
+    int opcion;
+
+    system("clear");
+    printf("+ + + + + | SISTEMA DE GESTION DE CENTROS | + + + + +\n\n1. Creación de centros\n\n2. Ayuda\n\n0. Terminar programa\n\n\nIntroduce la opcion:");
+    getValor(0,2);
+
+    return opcion;
+}
+
+void menuCompleto () {
+    system("clear");
+    
+}
