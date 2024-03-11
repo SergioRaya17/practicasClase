@@ -97,16 +97,17 @@ void creacionAlumnos (Centro centro) {
 }
 
 int menuInicial () {
-    int opcion;
-
     system("clear");
-    printf("+ + + + + | SISTEMA DE GESTION DE CENTROS | + + + + +\n\n1. Creación de centros\n\n2. Ayuda\n\n0. Terminar programa\n\n\nIntroduce la opcion:");
-    getValor(0,2);
-
-    return opcion;
+    printf("+ + + + + | SISTEMA DE GESTION DE CENTROS | + + + + +\n\n1. Creación de centros\n\n2. Ayuda\n\n\n0. Terminar programa\nIntroduce la opción: ");
+    return getValor(0,2);
 }
 
 void menuCompleto () {
     system("clear");
-    
+    printf("+ + + + + | SISTEMA DE GESTION DE CENTROS | + + + + +\n\n1. Añadir Centro\n\n2. Añadir Alumnos\n\n3. Ayuda\n\n\n0. Terminar programa\nIntroduce la opción: ");
+    return getValor(0,3);
+}
+
+void si () {
+    return "Tus muertos";
 }
